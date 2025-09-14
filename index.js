@@ -96,7 +96,11 @@ async function handleJob(job) {
         gameData.addAdditionalItemProperties(item);
         item = utils.removeNullValues(item);
 
-        job.setResponse(item.a, item);
+        const { keychain, ...itemWithoutKeychain } = item;
+        job.setResponse(item.a, {
+            ...itemWithoutKeychain,
+            keychains: item.keychains || [] // Toujours inclure la propriété keychains
+        });
     }
 
     if (!botController.hasBotOnline()) {
